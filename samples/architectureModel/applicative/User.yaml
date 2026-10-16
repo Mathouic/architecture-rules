@@ -1,0 +1,13 @@
+type: architecture.component
+stereotypes:
+  - name: org.mathouic.modelia.architecture.profile.applicative.V01_00_000.User
+    browsers:
+      - Firefox >= 154.0.0
+      - Chrome >= 155.0.8059.40
+dependencies:
+  - name: concerto
+    target: applicative.Concerto
+    stereotypes:
+      - name: org.mathouic.modelia.architecture.profile.applicative.V01_00_000.HttpProtocol
+        httpVersion: HTTP/2
+        tlsVersion: TLS 1.3

@@ -1,0 +1,8 @@
+objects:
+  - component: applicative.User
+    icon: org.mathouic.modelia.architecture.profile.applicative.V01_00_000.User_100
+  - component: applicative.Concerto
+    icon: org.trainingorchestra.architecture.profile.applicative.V01_00_000.Concerto_100
+    visibleMetaInfos:
+      - org.trainingorchestra.architecture.profile.applicative.V01_00_000.Concerto.version
+  - dependency: applicative.User.concerto

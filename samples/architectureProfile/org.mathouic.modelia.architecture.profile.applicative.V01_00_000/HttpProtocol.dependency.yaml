@@ -1,0 +1,4 @@
+type: architecture.stereotype
+metainfo:
+  httpVersion: string
+  tlsVersion: string

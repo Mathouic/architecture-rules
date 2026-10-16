@@ -1,0 +1,6 @@
+type: architecture.models
+profiles:
+  - profilePath: ../architectureProfile
+    profileName: org.mathouic.modelia.architecture.profile.applicative.V01_00_000
+  - profilePath: ../architectureProfile
+    profileName: org.trainingorchestra.architecture.profile.applicative.V01_00_000

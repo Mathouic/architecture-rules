@@ -1,0 +1,4 @@
+type: architecture.component
+stereotypes:
+  - name: org.trainingorchestra.architecture.profile.applicative.V01_00_000.Concerto
+    version: 4.13.28
