@@ -19,6 +19,8 @@ L'objet de ce document est l'implémentation d'un modèle d'architecture.
 | **diagram** | Un fichier `<DiagramName>.architecturediagram.yaml` et un fichier `<DiagramName>.architecturediagram.mmd` optionnel dans un folder (cf. [ArchitectureDiagrams.md](ArchitectureDiagrams.md)) | Aucun : un diagram ne peut pas être stéréotypé |
 | **note** | Un fichier `<NoteName>.note.yaml` et un fichier `<NoteName>.note.md` dans un folder (cf. [§ 7](#7-note)) | Le fichier `<NoteName>.note.yaml` |
 
+Un modèle ne contient que les fichiers et répertoires qui implémentent ces méta-éléments : tout autre fichier, par exemple un document Word, le rend invalide (cf. règles `M-06`, `M-14` et `M-27` de [ValidationArchitecture.md](ValidationArchitecture.md#4-modèle-darchitecture)).
+
 Exemple de folder : `architectureModel/org/trainingorchestra/architecture/applicative/4_13/` et son fichier `metainfo.yaml`.
 
 ## 3. Racine du modèle

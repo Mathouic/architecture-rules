@@ -86,6 +86,7 @@ Ces règles valent pour chaque fichier de stéréotype d'un profil, c'est-à-dir
 | `M-03` | Si elle est présente, `profiles` est une séquence de maps. |
 | `M-04` | Chaque item de `profiles` contient exactement les clefs `profilePath` et `profileName`. |
 | `M-05` | Deux items de `profiles` n'ont pas le même `<ProfileBaseName>` : un modèle n'utilise qu'une seule version d'un même profil. |
+| `M-06` | La racine ne contient que le fichier `metainfo.yaml` et des folders. Aucun autre fichier n'y est admis : ni component, ni diagramme, ni note, ni fichier étranger au modèle (un document Word, par exemple). |
 
 ### 4.2. Folder
 
@@ -95,6 +96,7 @@ Ces règles valent pour chaque fichier de stéréotype d'un profil, c'est-à-dir
 | `M-11` | Un folder ne porte pas le même nom qu'un component du même folder. Sinon le répertoire serait interprété comme le répertoire des components internes de ce component (cf. [§ 5.1](ReferentialArchitectureModels.md#51-components-internes)). |
 | `M-12` | Si le fichier `metainfo.yaml` d'un folder est présent, il contient la clef `type` de valeur `architecture.folder` et au moins une clef non vide parmi `stereotypes` et `dependencies`. |
 | `M-13` | Le fichier `metainfo.yaml` d'un folder ne contient pas d'autres clefs que `type`, `stereotypes` et `dependencies`. |
+| `M-14` | Un folder ne contient qu'un fichier `metainfo.yaml` optionnel, des components `<ComponentName>.yaml` et leurs répertoires de components internes `<ComponentName>/`, des sous-folders, des diagrammes `<DiagramName>.architecturediagram.yaml` et `<DiagramName>.architecturediagram.mmd`, et des notes `<NoteName>.note.yaml` et `<NoteName>.note.md`. Aucun autre fichier n'y est admis (un document Word, par exemple). |
 
 ### 4.3. Component
 
@@ -109,6 +111,7 @@ Ces règles valent pour chaque fichier `.yaml` d'un folder ou d'un répertoire d
 | `M-24` | Réciproquement, chaque fichier `.yaml` du répertoire `<ComponentName>/` est listé dans `innerComponents`. |
 | `M-25` | Le répertoire `<ComponentName>/` n'existe que si `innerComponents` est non vide, et il ne contient pas de fichier `metainfo.yaml`. |
 | `M-26` | Un nom n'apparaît pas deux fois dans `innerComponents`. |
+| `M-27` | Un répertoire de components internes `<ComponentName>/` ne contient que des fichiers `<ComponentName>.yaml`, ses components internes, et leurs propres répertoires de components internes. Aucun autre fichier n'y est admis (un document Word, par exemple). |
 
 ### 4.4. Dependency
 
