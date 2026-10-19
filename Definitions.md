@@ -21,6 +21,33 @@ Ses éléments, à l'exception de `model` et `diagram`, peuvent être typés par
 
 > Un component peut être composé d'autres components, appelés components internes.
 
+## Typologie des components
+
+Un component représente le plus souvent l'un des trois éléments suivants, chacun typé par les stéréotypes d'un profil dédié.
+
+### Composant applicatif
+
+Un **composant applicatif** est un élément logiciel qui rend un service applicatif et s'exécute dans un contexte applicatif.
+
+Exemples : une base de données, un backend web, un royaume Keycloak, une file de messages.
+
+### Contexte applicatif
+
+Un **contexte applicatif** est un serveur logiciel sur lequel s'exécutent des composants applicatifs.
+
+Exemples : MS SQL Server, sur lequel s'exécute une base de données ; IIS, sur lequel s'exécute une application web ; Keycloak, qui héberge des royaumes.
+
+### Composant système
+
+Un **composant système** est un élément d'infrastructure sur lequel s'exécutent des contextes applicatifs, ou qui assure leur communication.
+
+Exemples : une machine virtuelle, un conteneur, un réseau, un load balancer.
+
+### Hébergement
+
+- Un composant système héberge des contextes applicatifs, qui hébergent des composants applicatifs.
+- Un élément hébergé est un component interne de son hôte (cf. [architecture/ReferentialArchitectureModels.md](architecture/ReferentialArchitectureModels.md#51-components-internes)).
+
 ## Diagramme de modèle d'architecture
 
 Un **diagramme de modèle d'architecture** est une vue partielle ou totale d'un modèle d'architecture sous la forme d'un dessin (en Mermaid par exemple).

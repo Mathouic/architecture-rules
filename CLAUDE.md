@@ -8,7 +8,7 @@ Les règles de modélisation **ModelIA** : définitions, conventions, implément
 
 | Chemin | Contenu |
 |---|---|
-| `Definitions.md` | Les notions : modèle d'architecture, diagramme, note, stéréotype, profil, méta-information, nom qualifié |
+| `Definitions.md` | Les notions : modèle d'architecture, typologie des components (composant applicatif, contexte applicatif, composant système), diagramme, note, stéréotype, profil, méta-information, nom qualifié |
 | `Conventions.md` | Les variables `<...>`, les espaces de noms et les valeurs de `<MInfoType>` |
 | `architecture/ReferentialArchitectureProfiles.md` | L'implémentation d'un référentiel de profils d'architecture |
 | `architecture/ReferentialArchitectureModels.md` | L'implémentation d'un modèle d'architecture |
