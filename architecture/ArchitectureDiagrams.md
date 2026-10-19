@@ -75,6 +75,19 @@ Le dessin est le fichier `<DiagramName>.architecturediagram.mmd`, en Mermaid. Il
 - Une dependency n'est donc dessinable que si l'élément qui la porte (component ou folder) et son élément cible sont tous deux dans `objects`.
 - Une note est dessinée reliée à l'élément auquel elle est attachée (son `target`) ; elle n'est donc dessinable que si cet élément est aussi dans `objects`.
 
+### 4.1. Format du dessin
+
+Le dessin est lisible par Mermaid 10 et par les versions suivantes : il n'utilise pas la syntaxe `@{ … }` des formes étendues, apparue avec Mermaid 11.3, qu'ignorent encore de nombreux outils de visualisation.
+
+- La première ligne est le commentaire `%% Généré à partir de <DiagramName>.architecturediagram.yaml : ne pas modifier à la main.`, suivi de `flowchart LR`.
+- L'identifiant Mermaid d'un objet est son nom qualifié, dont les `.` sont remplacés par des `_`.
+- Un component est un nœud rectangulaire `<Id>["<Libellé>"]`. Si l'objet a une `icon`, le libellé commence par la balise `<img src='<Chemin>' width='100' height='100'/><br/>`, où `<Chemin>` est le chemin du fichier de l'icône, relatif au folder du dessin. Les attributs de la balise sont entre apostrophes, car le libellé est entre guillemets.
+- Une note est un nœud rectangulaire de classe `note`, déclarée par `classDef note fill:#fff8c4,stroke:#c9b458,stroke-dasharray:4 2`, et reliée à son `target` par un lien pointillé `-.-`.
+- Le libellé contient ensuite le nom de l'objet, puis une ligne `<br/><MInfoName> : <MInfoValue>` par méta-information visible ; les valeurs d'une liste sont séparées par des virgules. Les caractères `<`, `>` et `"` d'une valeur sont écrits `&lt;`, `&gt;` et `&quot;`.
+- Une dependency est un lien `<IdSource> -->|<DependencyName>| <IdCible>`.
+
+Si une icône est introuvable, seule l'image manque : le reste du dessin s'affiche.
+
 ## 5. Exemple
 
 Le fichier `applicative/UserToConcerto.architecturediagram.yaml` de l'[exemple](../samples/architectureModel/applicative/UserToConcerto.architecturediagram.yaml) montre aussi la note `ConcertoHosting`, attachée au component `applicative.Concerto` :
@@ -96,10 +109,13 @@ objects:
 Son dessin, le fichier `applicative/UserToConcerto.architecturediagram.mmd` de l'[exemple](../samples/architectureModel/applicative/UserToConcerto.architecturediagram.mmd), a été généré à partir de cette définition :
 
 ```mermaid
+%% Généré à partir de UserToConcerto.architecturediagram.yaml : ne pas modifier à la main.
 flowchart LR
-    applicative_User@{ img: "../../architectureProfile/org.mathouic.modelia.architecture.profile.applicative.V01_00_000/icons/User_100.png", label: "User", pos: "t", w: 100, h: 100, constraint: "on" }
-    applicative_Concerto@{ img: "../../architectureProfile/org.trainingorchestra.architecture.profile.applicative.V01_00_000/icons/Concerto_100.png", label: "Concerto<br/>version : 4.13.28", pos: "t", w: 100, h: 100, constraint: "on" }
-    applicative_ConcertoHosting@{ shape: doc, label: "ConcertoHosting<br/>status : accepted" }
+    classDef note fill:#fff8c4,stroke:#c9b458,stroke-dasharray:4 2
+
+    applicative_User["<img src='../../architectureProfile/org.mathouic.modelia.architecture.profile.applicative.V01_00_000/icons/User_100.png' width='100' height='100'/><br/>User"]
+    applicative_Concerto["<img src='../../architectureProfile/org.trainingorchestra.architecture.profile.applicative.V01_00_000/icons/Concerto_100.png' width='100' height='100'/><br/>Concerto<br/>version : 4.13.28"]
+    applicative_ConcertoHosting["ConcertoHosting<br/>status : accepted"]:::note
 
     applicative_User -->|concerto| applicative_Concerto
     applicative_ConcertoHosting -.- applicative_Concerto
