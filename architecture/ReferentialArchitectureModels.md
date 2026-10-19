@@ -16,7 +16,7 @@ L'objet de ce document est l'implémentation d'un modèle d'architecture.
 | **folder** | Un sous-répertoire du modèle | Un fichier `metainfo.yaml` optionnel, présent uniquement si le folder est stéréotypé ou porte des dependencies (un folder n'est pas obligatoirement stéréotypé) |
 | **component** | Un fichier `<ComponentName>.yaml` | Le fichier lui-même |
 | **dependency** | Un item de la clef `dependencies` du fichier component ou du `metainfo.yaml` du folder qui porte la dépendance | L'item lui-même |
-| **diagram** | Un fichier `<DiagramName>.architecturediagram.yaml` dans un folder (cf. [ArchitectureDiagrams.md](ArchitectureDiagrams.md)) | Aucun : un diagram ne peut pas être stéréotypé |
+| **diagram** | Un fichier `<DiagramName>.architecturediagram.yaml` et un fichier `<DiagramName>.architecturediagram.mmd` optionnel dans un folder (cf. [ArchitectureDiagrams.md](ArchitectureDiagrams.md)) | Aucun : un diagram ne peut pas être stéréotypé |
 | **note** | Un fichier `<NoteName>.note.yaml` et un fichier `<NoteName>.note.md` dans un folder (cf. [§ 7](#7-note)) | Le fichier `<NoteName>.note.yaml` |
 
 Exemple de folder : `architectureModel/org/trainingorchestra/architecture/applicative/4_13/` et son fichier `metainfo.yaml`.

@@ -1,0 +1,8 @@
+%% Généré à partir de UserToConcerto.architecturediagram.yaml : ne pas modifier à la main.
+flowchart LR
+    applicative_User@{ img: "../../architectureProfile/org.mathouic.modelia.architecture.profile.applicative.V01_00_000/icons/User_100.png", label: "User", pos: "t", w: 100, h: 100, constraint: "on" }
+    applicative_Concerto@{ img: "../../architectureProfile/org.trainingorchestra.architecture.profile.applicative.V01_00_000/icons/Concerto_100.png", label: "Concerto<br/>version : 4.13.28", pos: "t", w: 100, h: 100, constraint: "on" }
+    applicative_ConcertoHosting@{ shape: doc, label: "ConcertoHosting<br/>status : accepted" }
+
+    applicative_User -->|concerto| applicative_Concerto
+    applicative_ConcertoHosting -.- applicative_Concerto
