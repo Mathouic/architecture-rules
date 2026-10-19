@@ -1,0 +1,4 @@
+objects:
+  - folder: applicative
+  - folder: technical
+  - dependency: applicative.technical

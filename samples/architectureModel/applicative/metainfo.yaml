@@ -1,0 +1,4 @@
+type: architecture.folder
+dependencies:
+  - name: technical
+    target: technical

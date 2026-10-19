@@ -29,15 +29,21 @@ objects:
     visibleMetaInfos:
       - <ProfileName>.<TypeName>.<MInfoName>
       - <ProfileName>.<TypeName>.<MInfoName>
+  - folder: <TreePath>
+    icon: <ProfileName>.<TypeName>_<IconKey>
+    visibleMetaInfos:
+      - <ProfileName>.<TypeName>.<MInfoName>
   - dependency: <TreePath>.<ComponentName>.<DependencyName>
     visibleMetaInfos:
       - <ProfileName>.<TypeName>.<MInfoName>
+  - dependency: <TreePath>.<DependencyName>
 ```
 
 - `objects` liste les objets visibles dans le dessin. Chaque item désigne un objet par une clef qui donne son genre :
   - `component` : un component (ou un component interne), désigné par son nom qualifié ;
-  - `dependency` : une dependency, désignée par son nom qualifié.
-- `icon` est optionnelle et réservée aux components : c'est le nom qualifié de l'icône d'un stéréotype appliqué au component (cf. [ReferentialArchitectureProfiles.md § 4](ReferentialArchitectureProfiles.md#4-profil)).
+  - `folder` : un folder, désigné par son nom qualifié ;
+  - `dependency` : une dependency de component ou de folder, désignée par son nom qualifié.
+- `icon` est optionnelle et réservée aux components et aux folders : c'est le nom qualifié de l'icône d'un stéréotype appliqué à l'objet (cf. [ReferentialArchitectureProfiles.md § 4](ReferentialArchitectureProfiles.md#4-profil)).
 - `visibleMetaInfos` est optionnelle : elle liste, par leurs noms qualifiés, les méta-informations des stéréotypes appliqués à l'objet qui sont affichées dans le dessin.
 
 Les noms qualifiés sont décrits dans [ReferentialArchitectureModels.md § 7](ReferentialArchitectureModels.md#7-nom-qualifié) et [ReferentialArchitectureProfiles.md § 6](ReferentialArchitectureProfiles.md#6-nom-qualifié).
@@ -47,7 +53,7 @@ Les noms qualifiés sont décrits dans [ReferentialArchitectureModels.md § 7](R
 Le dessin (en Mermaid par exemple) est produit à partir de la définition du diagramme.
 
 - Aucun objet absent de `objects` ne doit apparaître dans le dessin.
-- Une dependency n'est donc dessinable que si le component qui la porte et son component cible sont tous deux dans `objects`.
+- Une dependency n'est donc dessinable que si l'élément qui la porte (component ou folder) et son élément cible sont tous deux dans `objects`.
 
 ## 5. Exemple
 
@@ -62,4 +68,13 @@ objects:
     visibleMetaInfos:
       - org.trainingorchestra.architecture.profile.applicative.V01_00_000.Concerto.version
   - dependency: applicative.User.concerto
+```
+
+Le fichier `applicative/ApplicativeToTechnical.architecturediagram.yaml` de l'[exemple](../samples/architectureModel/applicative/ApplicativeToTechnical.architecturediagram.yaml) montre une dependency de folder, `technical`, portée par le `metainfo.yaml` du folder `applicative` :
+
+```yaml
+objects:
+  - folder: applicative
+  - folder: technical
+  - dependency: applicative.technical
 ```
