@@ -11,13 +11,15 @@ Dans les documents d'architecture, une chaîne de caractères entre `<` et `>` e
 | `<ProfileBaseName>` | Nom du profil sans sa version, en notation inversée (ex. `org.trainingorchestra.architecture.profile.applicative`) |
 | `<ProfileVersion>` | Version d'un profil au format `Vxx_yy_zzz`, où `xx`, `yy` et `zzz` sont des nombres de 2, 2 et 3 chiffres complétés par des zéros à gauche (ex. `V01_02_003`) |
 | `<TypeName>` | Nom du stéréotype |
-| `<TargetType>` | Target du stéréotype : `folder` \| `component` \| `dependency` |
+| `<TargetType>` | Target du stéréotype : `folder` \| `component` \| `dependency` \| `note` |
 | `<MInfoType>` | Type de la méta-information (voir ci-dessous) |
 | `<MInfoName>` | Nom de la méta-information |
 | `<MInfoValue>` | Valeur de la méta-information, conforme à son `<MInfoType>` |
 | `<ComponentName>` | Nom d'un component |
 | `<DependencyName>` | Nom d'une dependency |
 | `<DiagramName>` | Nom d'un diagramme |
+| `<NoteName>` | Nom d'une note |
+| `<QualifiedName>` | Nom qualifié d'un élément du modèle (folder, component, dependency, diagram ou note) |
 | `<IconKey>` | Clef d'une icône d'un stéréotype, par exemple sa taille (ex. `24`, `48`) |
 | `<TreePath>` | Chemin d'un folder du modèle depuis la racine du modèle, les noms de folders étant séparés par des `.` |
 

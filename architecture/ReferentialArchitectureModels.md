@@ -8,7 +8,7 @@ Les conventions (variables `<...>`, types de méta-informations) sont décrites 
 
 L'objet de ce document est l'implémentation d'un modèle d'architecture.
 
-## 2. Les 5 méta-éléments
+## 2. Les 6 méta-éléments
 
 | Méta-élément | Implémentation | Porteur des méta-informations |
 |---|---|---|
@@ -17,6 +17,7 @@ L'objet de ce document est l'implémentation d'un modèle d'architecture.
 | **component** | Un fichier `<ComponentName>.yaml` | Le fichier lui-même |
 | **dependency** | Un item de la clef `dependencies` du fichier component ou du `metainfo.yaml` du folder qui porte la dépendance | L'item lui-même |
 | **diagram** | Un fichier `<DiagramName>.architecturediagram.yaml` dans un folder (cf. [ArchitectureDiagrams.md](ArchitectureDiagrams.md)) | Aucun : un diagram ne peut pas être stéréotypé |
+| **note** | Un fichier `<NoteName>.note.yaml` et un fichier `<NoteName>.note.md` dans un folder (cf. [§ 7](#7-note)) | Le fichier `<NoteName>.note.yaml` |
 
 Exemple de folder : `architectureModel/org/trainingorchestra/architecture/applicative/4_13/` et son fichier `metainfo.yaml`.
 
@@ -46,7 +47,7 @@ profiles:
     profileName: org.mathouic.modelia.architecture.profile.applicative.V01_00_000
 ```
 
-> Les méta-éléments `model` et `diagram` ne peuvent pas être étendus par un stéréotype.
+> Les méta-éléments `model` et `diagram` ne peuvent pas être étendus par un stéréotype ; `folder`, `component`, `dependency` et `note` peuvent l'être.
 
 ## 4. Folder
 
@@ -77,7 +78,7 @@ dependencies:
 
 ### 4.1. Référence à un folder
 
-Une référence à un folder est son nom qualifié (cf. [§ 7](#7-nom-qualifié)).
+Une référence à un folder est son nom qualifié (cf. [§ 8](#8-nom-qualifié)).
 
 - Pour faire référence à un folder dans un fichier yaml : `<TreePath>`.
   Exemple : `org.trainingorchestra.architecture.applicative.4_13`.
@@ -87,7 +88,7 @@ Une référence à un folder est son nom qualifié (cf. [§ 7](#7-nom-qualifié)
 
 Le nom du component est le nom de son fichier `<ComponentName>.yaml`, sans l'extension.
 
-Les fichiers `metainfo.yaml` et `<DiagramName>.architecturediagram.yaml` (diagrammes, cf. [ArchitectureDiagrams.md](ArchitectureDiagrams.md)) ne sont pas des components.
+Les fichiers `metainfo.yaml`, `<DiagramName>.architecturediagram.yaml` (diagrammes, cf. [ArchitectureDiagrams.md](ArchitectureDiagrams.md)) et `<NoteName>.note.yaml` (notes, cf. [§ 7](#7-note)) ne sont pas des components.
 
 Template du fichier `<ComponentName>.yaml` :
 
@@ -139,7 +140,7 @@ Exemple :
 
 ### 5.2. Référence à un component
 
-Une référence à un component est son nom qualifié (cf. [§ 7](#7-nom-qualifié)).
+Une référence à un component est son nom qualifié (cf. [§ 8](#8-nom-qualifié)).
 
 - Pour faire référence à un component dans un fichier yaml : `<TreePath>.<ComponentName>`.
   Exemple : `org.trainingorchestra.architecture.applicative.4_13.Concerto`.
@@ -159,7 +160,48 @@ Dans les deux cas :
 - `target` désigne l'élément cible par son nom qualifié : un component pour une dependency de component, selon les règles du [§ 5.2](#52-référence-à-un-component), un folder pour une dependency de folder, selon les règles du [§ 4.1](#41-référence-à-un-folder) ;
 - `stereotypes` liste les stéréotypes appliqués à la dependency, sur le même modèle que ceux du component.
 
-## 7. Nom qualifié
+## 7. Note
+
+Une note se matérialise par deux fichiers de même nom, placés côte à côte dans un folder du modèle :
+
+- `<NoteName>.note.yaml`, qui attache la note à un élément et porte ses stéréotypes ;
+- `<NoteName>.note.md`, qui contient le texte de la note, en Markdown libre.
+
+Une note n'est placée ni à la racine du modèle, ni dans un répertoire de components internes.
+
+Template du fichier `<NoteName>.note.yaml` :
+
+```yaml
+type: architecture.note
+target: <QualifiedName>
+stereotypes:
+  - name: <ProfileName>.<TypeName>
+    <MInfoName>: <MInfoValue>
+    <MInfoName>: <MInfoValue>
+```
+
+- `target` est obligatoire : une note est toujours attachée à un élément. Il désigne cet élément par son nom qualifié (cf. [§ 8](#8-nom-qualifié)) : un folder, un component (interne ou non), une dependency (de component ou de folder) ou un diagram. Une note ne peut être attachée ni à la racine du modèle, ni à une autre note.
+- `stereotypes` liste les stéréotypes appliqués à la note, sur le même modèle que ceux du component.
+
+Exemple : la note `ConcertoHosting` du folder `applicative` de l'[exemple](../samples/architectureModel/applicative/ConcertoHosting.note.yaml), attachée au component `applicative.Concerto` :
+
+```
+applicative/
+├── Concerto.yaml
+├── ConcertoHosting.note.yaml
+└── ConcertoHosting.note.md
+```
+
+```yaml
+type: architecture.note
+target: applicative.Concerto
+stereotypes:
+  - name: org.mathouic.modelia.architecture.profile.applicative.V01_00_000.Decision
+    date: 2026-10-19
+    status: accepted
+```
+
+## 8. Nom qualifié
 
 Cf. la notion de nom qualifié dans les [définitions](../Definitions.md#nom-qualifié).
 
@@ -172,7 +214,8 @@ Cf. la notion de nom qualifié dans les [définitions](../Definitions.md#nom-qua
 | dependency de component | Le nom qualifié du component qui la porte suivi de `.<DependencyName>` | `org.trainingorchestra.architecture.applicative.4_13.Concerto.database` |
 | dependency de folder | Le nom qualifié du folder qui la porte suivi de `.<DependencyName>` | `org.trainingorchestra.architecture.applicative.4_13.technical` |
 | diagram | `<TreePath>.<DiagramName>` | `org.trainingorchestra.architecture.applicative.4_13.Overview` |
+| note | `<TreePath>.<NoteName>` | `org.trainingorchestra.architecture.applicative.4_13.ConcertoHosting` |
 
-Un component interne et une dependency d'un même component ne peuvent donc pas porter le même nom (cf. règle `M-35` de [ValidationArchitecture.md](ValidationArchitecture.md#44-dependency)). De même, une dependency d'un folder ne porte le nom d'aucun component, sous-folder ou diagramme de ce folder (cf. règle `M-36`).
+Un component interne et une dependency d'un même component ne peuvent donc pas porter le même nom (cf. règle `M-35` de [ValidationArchitecture.md](ValidationArchitecture.md#44-dependency)). De même, une dependency d'un folder ne porte le nom d'aucun component, sous-folder, diagramme ou note de ce folder (cf. règle `M-36`), et une note ne porte le nom d'aucun component, sous-folder, diagramme ou dependency de son folder (cf. règle `M-74` de [ValidationArchitecture.md](ValidationArchitecture.md#47-note)).
 
 Les noms qualifiés des profils, stéréotypes, méta-informations et icônes sont décrits dans [ReferentialArchitectureProfiles.md](ReferentialArchitectureProfiles.md#6-nom-qualifié).

@@ -29,7 +29,7 @@ La violation d'une règle rend le référentiel ou le modèle invalide.
 |---|---|
 | `G-01` | Tout fichier `.yaml` est un document YAML syntaxiquement valide. |
 | `G-02` | Une même clef n'apparaît pas deux fois dans une même map YAML. |
-| `G-03` | Les clefs fixées par les templates (`type`, `profiles`, `profilePath`, `profileName`, `metainfo`, `stereotypes`, `dependencies`, `innerComponents`, `name`, `target`, `objects`, `component`, `folder`, `dependency`, `icon`, `visibleMetaInfos`) sont écrites en respectant la casse. |
+| `G-03` | Les clefs fixées par les templates (`type`, `profiles`, `profilePath`, `profileName`, `metainfo`, `stereotypes`, `dependencies`, `innerComponents`, `name`, `target`, `objects`, `component`, `folder`, `dependency`, `note`, `icon`, `visibleMetaInfos`) sont écrites en respectant la casse. |
 
 ## 3. Référentiel de profils
 
@@ -60,7 +60,7 @@ Ces règles valent pour chaque fichier de stéréotype d'un profil, c'est-à-dir
 |---|---|
 | `P-20` | Le nom du fichier se découpe en exactement trois segments séparés par des `.` : `<TypeName>`, `<TargetType>`, `yaml`. |
 | `P-21` | `<TypeName>` ne contient pas de `.`. Sinon la référence `<ProfileName>.<TypeName>` ne peut pas être découpée. |
-| `P-22` | `<TargetType>` vaut `folder`, `component` ou `dependency`. Les valeurs `model` et `diagram` sont interdites. |
+| `P-22` | `<TargetType>` vaut `folder`, `component`, `dependency` ou `note`. Les valeurs `model` et `diagram` sont interdites. |
 | `P-23` | `<TypeName>` est unique dans un profil, toutes cibles confondues. Exemple : `Version.folder.yaml` et `Version.component.yaml` ne peuvent pas coexister dans un même profil, car ils auraient la même référence `<ProfileName>.Version`. |
 | `P-24` | Le fichier contient la clef `type` de valeur `architecture.stereotype`. |
 | `P-25` | Le fichier ne contient pas d'autres clefs que `type` et `metainfo`. La clef `metainfo` est optionnelle : un stéréotype peut ne déclarer aucune méta-information. |
@@ -98,7 +98,7 @@ Ces règles valent pour chaque fichier de stéréotype d'un profil, c'est-à-dir
 
 ### 4.3. Component
 
-Ces règles valent pour chaque fichier `.yaml` d'un folder ou d'un répertoire de components internes, à l'exception de `metainfo.yaml` et des diagrammes `<DiagramName>.architecturediagram.yaml`.
+Ces règles valent pour chaque fichier `.yaml` d'un folder ou d'un répertoire de components internes, à l'exception de `metainfo.yaml`, des diagrammes `<DiagramName>.architecturediagram.yaml` et des notes `<NoteName>.note.yaml`.
 
 | Id | Règle |
 |---|---|
@@ -122,11 +122,11 @@ Ces règles valent pour chaque item d'une clef `dependencies`, qu'elle soit port
 | `M-33` | Un item de `dependencies` ne contient pas d'autres clefs que `name`, `target` et `stereotypes`. |
 | `M-34` | `<DependencyName>` ne contient pas de `.`. Sinon le nom qualifié de la dependency ne peut pas être découpé. |
 | `M-35` | Le `<DependencyName>` d'une dependency de component est différent du nom de chaque component interne de ce component. Sinon les deux auraient le même nom qualifié. |
-| `M-36` | Le `<DependencyName>` d'une dependency de folder est différent du nom de chaque component, sous-folder et diagramme de ce folder. Sinon les deux auraient le même nom qualifié. |
+| `M-36` | Le `<DependencyName>` d'une dependency de folder est différent du nom de chaque component, sous-folder, diagramme et note de ce folder. Sinon les deux auraient le même nom qualifié. |
 
 ### 4.5. Stéréotype appliqué
 
-Ces règles valent pour chaque item d'une clef `stereotypes`, qu'elle soit portée par un folder, un component ou une dependency.
+Ces règles valent pour chaque item d'une clef `stereotypes`, qu'elle soit portée par un folder, un component, une dependency ou une note.
 
 | Id | Règle |
 |---|---|
@@ -140,15 +140,31 @@ Cf. [ArchitectureDiagrams.md](ArchitectureDiagrams.md).
 | Id | Règle |
 |---|---|
 | `M-60` | Un diagramme est un fichier `<DiagramName>.architecturediagram.yaml` placé dans un folder, ni à la racine du modèle, ni dans un répertoire de components internes. `<DiagramName>` ne contient pas de `.`. |
-| `M-61` | `<DiagramName>` est différent du nom de chaque component du même folder. Sinon les deux auraient le même nom qualifié. |
+| `M-61` | `<DiagramName>` est différent du nom de chaque component et de chaque note du même folder. Sinon les deux auraient le même nom qualifié. |
 | `M-62` | Le fichier contient exactement la clef `objects`. |
 | `M-63` | `objects` est une séquence non vide. |
-| `M-64` | Chaque item de `objects` contient exactement une clef de genre, `component`, `folder` ou `dependency`. Un item `component` ou `folder` peut aussi contenir `icon` et `visibleMetaInfos` ; un item `dependency` peut aussi contenir `visibleMetaInfos`. Aucune autre clef n'est autorisée. |
+| `M-64` | Chaque item de `objects` contient exactement une clef de genre, `component`, `folder`, `dependency` ou `note`. Un item `component`, `folder` ou `note` peut aussi contenir `icon` et `visibleMetaInfos` ; un item `dependency` peut aussi contenir `visibleMetaInfos`. Aucune autre clef n'est autorisée. |
 | `M-65` | La valeur de `component` est le nom qualifié d'un component existant du modèle. |
 | `M-66` | La valeur de `dependency` est le nom qualifié d'une dependency existante du modèle, dependency de component ou de folder. |
 | `M-67` | Un même objet n'apparaît pas deux fois dans `objects`. |
 | `M-68` | Pour chaque item `dependency`, l'élément qui porte la dependency et son `target` figurent aussi dans `objects`. Sinon le dessin montrerait un objet absent de la liste. |
 | `M-69` | La valeur de `folder` est le nom qualifié d'un folder existant du modèle. |
+
+Les règles des items `note` d'un diagramme sont `M-75` et `M-76` (cf. [§ 4.7](#47-note)).
+
+### 4.7. Note
+
+Cf. [ReferentialArchitectureModels.md § 7](ReferentialArchitectureModels.md#7-note).
+
+| Id | Règle |
+|---|---|
+| `M-70` | Une note est un fichier `<NoteName>.note.yaml` placé dans un folder, ni à la racine du modèle, ni dans un répertoire de components internes. `<NoteName>` ne contient pas de `.`. |
+| `M-71` | Chaque fichier `<NoteName>.note.yaml` a un fichier `<NoteName>.note.md` dans le même folder, et réciproquement. |
+| `M-72` | Le fichier `<NoteName>.note.yaml` contient la clef `type` de valeur `architecture.note` et la clef `target`, et pas d'autres clefs que `type`, `target` et `stereotypes`. |
+| `M-73` | `target` est le nom qualifié d'un élément existant du modèle : un folder, un component (interne ou non), une dependency (de component ou de folder) ou un diagram. |
+| `M-74` | `<NoteName>` est différent du nom de chaque component, sous-folder, diagramme et dependency de folder du même folder. Sinon les deux auraient le même nom qualifié. |
+| `M-75` | Dans un diagramme, la valeur de `note` est le nom qualifié d'une note existante du modèle. |
+| `M-76` | Dans un diagramme, pour chaque item `note`, l'élément désigné par le `target` de la note figure aussi dans `objects`. Sinon le dessin montrerait un objet absent de la liste. |
 
 ## 5. Modèle confronté au référentiel de profils
 
@@ -173,7 +189,7 @@ Une méta-information déclarée par un stéréotype est optionnelle : l'éléme
 |---|---|
 | `X-10` | `<ProfileName>` est le `profileName` d'un item de `profiles`. |
 | `X-11` | Ce profil contient un fichier `<TypeName>.<TargetType>.yaml`. |
-| `X-12` | Le `<TargetType>` du stéréotype correspond au méta-élément qui le porte : `folder` dans le `metainfo.yaml` d'un folder, `component` à la racine d'un fichier component, `dependency` dans un item de `dependencies`, que celui-ci soit dans un fichier component ou dans le `metainfo.yaml` d'un folder. |
+| `X-12` | Le `<TargetType>` du stéréotype correspond au méta-élément qui le porte : `folder` dans le `metainfo.yaml` d'un folder, `component` à la racine d'un fichier component, `dependency` dans un item de `dependencies`, que celui-ci soit dans un fichier component ou dans le `metainfo.yaml` d'un folder, `note` dans un fichier `<NoteName>.note.yaml`. |
 | `X-13` | Chaque clef de l'item, hors `name`, est un `<MInfoName>` déclaré dans le `metainfo` du stéréotype. |
 | `X-14` | Chaque `<MInfoValue>` est conforme à son `<MInfoType>` (cf. [§ 5.3](#53-conformité-dune-valeur)). |
 
@@ -198,5 +214,5 @@ Un nom qualifié d'icône `<ProfileName>.<TypeName>_<IconKey>` se découpe au de
 | Id | Règle |
 |---|---|
 | `X-20` | Pour `icon`, `<ProfileName>` est le `profileName` d'un item de `profiles` et le profil contient le fichier `icons/<TypeName>_<IconKey>.png`. |
-| `X-21` | Le stéréotype `<ProfileName>.<TypeName>` de l'icône est appliqué à l'objet (component ou folder). |
+| `X-21` | Le stéréotype `<ProfileName>.<TypeName>` de l'icône est appliqué à l'objet (component, folder ou note). |
 | `X-22` | Pour chaque item `<ProfileName>.<TypeName>.<MInfoName>` de `visibleMetaInfos`, le stéréotype `<ProfileName>.<TypeName>` existe et est appliqué à l'objet, et ce stéréotype déclare `<MInfoName>`. |

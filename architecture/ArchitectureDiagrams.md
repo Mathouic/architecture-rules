@@ -37,16 +37,21 @@ objects:
     visibleMetaInfos:
       - <ProfileName>.<TypeName>.<MInfoName>
   - dependency: <TreePath>.<DependencyName>
+  - note: <TreePath>.<NoteName>
+    icon: <ProfileName>.<TypeName>_<IconKey>
+    visibleMetaInfos:
+      - <ProfileName>.<TypeName>.<MInfoName>
 ```
 
 - `objects` liste les objets visibles dans le dessin. Chaque item désigne un objet par une clef qui donne son genre :
   - `component` : un component (ou un component interne), désigné par son nom qualifié ;
   - `folder` : un folder, désigné par son nom qualifié ;
-  - `dependency` : une dependency de component ou de folder, désignée par son nom qualifié.
-- `icon` est optionnelle et réservée aux components et aux folders : c'est le nom qualifié de l'icône d'un stéréotype appliqué à l'objet (cf. [ReferentialArchitectureProfiles.md § 4](ReferentialArchitectureProfiles.md#4-profil)).
+  - `dependency` : une dependency de component ou de folder, désignée par son nom qualifié ;
+  - `note` : une note, désignée par son nom qualifié (cf. [ReferentialArchitectureModels.md § 7](ReferentialArchitectureModels.md#7-note)).
+- `icon` est optionnelle et réservée aux components, aux folders et aux notes : c'est le nom qualifié de l'icône d'un stéréotype appliqué à l'objet (cf. [ReferentialArchitectureProfiles.md § 4](ReferentialArchitectureProfiles.md#4-profil)).
 - `visibleMetaInfos` est optionnelle : elle liste, par leurs noms qualifiés, les méta-informations des stéréotypes appliqués à l'objet qui sont affichées dans le dessin.
 
-Les noms qualifiés sont décrits dans [ReferentialArchitectureModels.md § 7](ReferentialArchitectureModels.md#7-nom-qualifié) et [ReferentialArchitectureProfiles.md § 6](ReferentialArchitectureProfiles.md#6-nom-qualifié).
+Les noms qualifiés sont décrits dans [ReferentialArchitectureModels.md § 8](ReferentialArchitectureModels.md#8-nom-qualifié) et [ReferentialArchitectureProfiles.md § 6](ReferentialArchitectureProfiles.md#6-nom-qualifié).
 
 ## 4. Dessin
 
@@ -54,10 +59,11 @@ Le dessin (en Mermaid par exemple) est produit à partir de la définition du di
 
 - Aucun objet absent de `objects` ne doit apparaître dans le dessin.
 - Une dependency n'est donc dessinable que si l'élément qui la porte (component ou folder) et son élément cible sont tous deux dans `objects`.
+- Une note est dessinée reliée à l'élément auquel elle est attachée (son `target`) ; elle n'est donc dessinable que si cet élément est aussi dans `objects`.
 
 ## 5. Exemple
 
-Le fichier `applicative/UserToConcerto.architecturediagram.yaml` de l'[exemple](../samples/architectureModel/applicative/UserToConcerto.architecturediagram.yaml) :
+Le fichier `applicative/UserToConcerto.architecturediagram.yaml` de l'[exemple](../samples/architectureModel/applicative/UserToConcerto.architecturediagram.yaml) montre aussi la note `ConcertoHosting`, attachée au component `applicative.Concerto` :
 
 ```yaml
 objects:
@@ -68,6 +74,9 @@ objects:
     visibleMetaInfos:
       - org.trainingorchestra.architecture.profile.applicative.V01_00_000.Concerto.version
   - dependency: applicative.User.concerto
+  - note: applicative.ConcertoHosting
+    visibleMetaInfos:
+      - org.mathouic.modelia.architecture.profile.applicative.V01_00_000.Decision.status
 ```
 
 Le fichier `applicative/ApplicativeToTechnical.architecturediagram.yaml` de l'[exemple](../samples/architectureModel/applicative/ApplicativeToTechnical.architecturediagram.yaml) montre une dependency de folder, `technical`, portée par le `metainfo.yaml` du folder `applicative` :

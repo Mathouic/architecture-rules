@@ -8,7 +8,7 @@ Les règles de modélisation **ModelIA** : définitions, conventions, implément
 
 | Chemin | Contenu |
 |---|---|
-| `Definitions.md` | Les notions : modèle d'architecture, diagramme, stéréotype, profil, méta-information, nom qualifié |
+| `Definitions.md` | Les notions : modèle d'architecture, diagramme, note, stéréotype, profil, méta-information, nom qualifié |
 | `Conventions.md` | Les variables `<...>`, les espaces de noms et les valeurs de `<MInfoType>` |
 | `architecture/ReferentialArchitectureProfiles.md` | L'implémentation d'un référentiel de profils d'architecture |
 | `architecture/ReferentialArchitectureModels.md` | L'implémentation d'un modèle d'architecture |
@@ -27,7 +27,7 @@ Après un commit poussé ici, on met à jour chaque dépôt utilisateur avec `gi
 
 ## Consignes
 
-- Les documents sont rédigés en français ; les noms des méta-éléments (`model`, `folder`, `component`, `dependency`, `diagram`) et les clefs YAML restent en anglais.
+- Les documents sont rédigés en français ; les noms des méta-éléments (`model`, `folder`, `component`, `dependency`, `diagram`, `note`) et les clefs YAML restent en anglais.
 - Une notion est définie dans `Definitions.md`, son implémentation dans `architecture/`. Un document renvoie aux autres par des liens relatifs avec ancre (ex. `[ValidationArchitecture.md](ValidationArchitecture.md#44-dependency)`) : renommer une section impose de mettre à jour les liens qui y pointent.
 - Toute évolution d'un template (`ReferentialArchitecture*.md`, `ArchitectureDiagrams.md`) s'accompagne des règles de validation correspondantes dans `ValidationArchitecture.md`, et inversement.
 - Les identifiants de règles (`G-01`, `P-20`, `M-35`, …) sont stables : une règle supprimée libère son identifiant sans renuméroter les autres, et une nouvelle règle prend un identifiant libre dans la plage de sa section.
