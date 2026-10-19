@@ -1,0 +1,6 @@
+type: architecture.note
+target: applicative.Concerto
+stereotypes:
+  - name: org.mathouic.modelia.architecture.profile.applicative.V01_00_000.Decision
+    date: 2026-10-19
+    status: accepted

@@ -12,7 +12,7 @@ L'objet de ce document est l'implémentation d'un référentiel de profils d'arc
 
 Cf. les méta-éléments d'un modèle d'architecture dans les [définitions](../Definitions.md#modèle-darchitecture).
 
-Chaque méta-élément, à l'exception de `model` et `diagram`, peut être étendu par un stéréotype défini dans un profil.
+Chaque méta-élément, à l'exception de `model` et `diagram`, peut être étendu par un stéréotype défini dans un profil : `folder`, `component`, `dependency` et `note`.
 
 ## 3. Racine du référentiel
 
