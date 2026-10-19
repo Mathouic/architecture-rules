@@ -129,6 +129,7 @@ innerComponents:
 - Les components internes d'un component `<ComponentName>` sont stockés dans un sous-répertoire `<ComponentName>/`, placé à côté du fichier `<ComponentName>.yaml`.
 - Chaque component interne est un fichier `<ComponentName>.yaml` de ce sous-répertoire, conforme au template du [§ 5](#5-component). Un component interne peut lui-même avoir des components internes.
 - Ce sous-répertoire n'est pas un folder : il ne contient pas de fichier `metainfo.yaml` et n'apparaît pas dans le `<TreePath>`.
+- Un élément hébergé est un component interne de son hôte : un composant applicatif est un component interne de son contexte applicatif, lui-même component interne de son composant système (cf. [Typologie des components](../Definitions.md#typologie-des-components)).
 
 Exemple :
 
