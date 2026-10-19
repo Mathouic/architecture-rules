@@ -13,7 +13,7 @@ Il est exprimé à l'aide de 5 méta-éléments :
 | **model** | La racine d'un modèle d'architecture |
 | **folder** | Un regroupement d'éléments du modèle |
 | **component** | Un élément d'architecture |
-| **dependency** | Une relation d'un component vers un autre component |
+| **dependency** | Une relation d'un component vers un autre component, ou d'un folder vers un autre folder |
 | **diagram** | Une vue du modèle d'architecture (cf. [Diagramme de modèle d'architecture](#diagramme-de-modèle-darchitecture)) |
 
 Ses éléments, à l'exception de `model` et `diagram`, peuvent être typés par des stéréotypes, qui leur ajoutent des méta-informations.
@@ -24,7 +24,7 @@ Ses éléments, à l'exception de `model` et `diagram`, peuvent être typés par
 
 Un **diagramme de modèle d'architecture** est une vue partielle ou totale d'un modèle d'architecture sous la forme d'un dessin (en Mermaid par exemple).
 
-- Un diagramme déclare les objets du modèle qu'il montre (components, dependencies) ; aucun autre objet n'apparaît dans son dessin.
+- Un diagramme déclare les objets du modèle qu'il montre (folders, components, dependencies) ; aucun autre objet n'apparaît dans son dessin.
 - Un diagramme ne peut pas être étendu par un stéréotype.
 
 ## Stéréotype

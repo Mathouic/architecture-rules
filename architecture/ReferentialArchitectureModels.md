@@ -13,9 +13,9 @@ L'objet de ce document est l'implémentation d'un modèle d'architecture.
 | Méta-élément | Implémentation | Porteur des méta-informations |
 |---|---|---|
 | **model** | Le répertoire racine du modèle | Un fichier `metainfo.yaml` obligatoire dans ce répertoire |
-| **folder** | Un sous-répertoire du modèle | Un fichier `metainfo.yaml` optionnel, présent uniquement si le folder est stéréotypé (un folder n'est pas obligatoirement stéréotypé) |
+| **folder** | Un sous-répertoire du modèle | Un fichier `metainfo.yaml` optionnel, présent uniquement si le folder est stéréotypé ou porte des dependencies (un folder n'est pas obligatoirement stéréotypé) |
 | **component** | Un fichier `<ComponentName>.yaml` | Le fichier lui-même |
-| **dependency** | Un item de la clef `dependencies` du fichier component qui porte la dépendance | L'item lui-même |
+| **dependency** | Un item de la clef `dependencies` du fichier component ou du `metainfo.yaml` du folder qui porte la dépendance | L'item lui-même |
 | **diagram** | Un fichier `<DiagramName>.architecturediagram.yaml` dans un folder (cf. [ArchitectureDiagrams.md](ArchitectureDiagrams.md)) | Aucun : un diagram ne peut pas être stéréotypé |
 
 Exemple de folder : `architectureModel/org/trainingorchestra/architecture/applicative/4_13/` et son fichier `metainfo.yaml`.
@@ -50,9 +50,9 @@ profiles:
 
 ## 4. Folder
 
-Un folder non stéréotypé n'a pas de fichier `metainfo.yaml`.
+Un folder qui n'est pas stéréotypé et ne porte pas de dependency n'a pas de fichier `metainfo.yaml`.
 
-Template du fichier `metainfo.yaml` d'un folder stéréotypé :
+Template du fichier `metainfo.yaml` d'un folder stéréotypé ou porteur de dependencies :
 
 ```yaml
 type: architecture.folder
@@ -63,7 +63,25 @@ stereotypes:
   - name: <ProfileName>.<TypeName>
     <MInfoName>: <MInfoValue>
     <MInfoName>: <MInfoValue>
+dependencies:
+  - name: <DependencyName>
+    target: <TreePath>
+    stereotypes:
+      - name: <ProfileName>.<TypeName>
+        <MInfoName>: <MInfoValue>
+        <MInfoName>: <MInfoValue>
 ```
+
+- `stereotypes` liste les stéréotypes appliqués au folder, sur le même modèle que ceux du component (cf. [§ 5](#5-component)).
+- `dependencies` liste les dependencies portées par le folder vers d'autres folders (cf. [§ 6. Dependency](#6-dependency)).
+
+### 4.1. Référence à un folder
+
+Une référence à un folder est son nom qualifié (cf. [§ 7](#7-nom-qualifié)).
+
+- Pour faire référence à un folder dans un fichier yaml : `<TreePath>`.
+  Exemple : `org.trainingorchestra.architecture.applicative.4_13`.
+- La racine du modèle n'est pas un folder : on ne peut pas y faire référence.
 
 ## 5. Component
 
@@ -130,10 +148,15 @@ Une référence à un component est son nom qualifié (cf. [§ 7](#7-nom-qualifi
 
 ## 6. Dependency
 
-Une dependency est un item de la clef `dependencies` du component qui la porte (cf. template du [§ 5](#5-component)) :
+Une dependency relie deux éléments de même genre :
+
+- une dependency de component, d'un component vers un autre component, est un item de la clef `dependencies` du component qui la porte (cf. template du [§ 5](#5-component)) ;
+- une dependency de folder, d'un folder vers un autre folder, est un item de la clef `dependencies` du `metainfo.yaml` du folder qui la porte (cf. template du [§ 4](#4-folder)).
+
+Dans les deux cas :
 
 - `name` est le nom de la dependency ;
-- `target` désigne le component cible par son nom qualifié, selon les règles du [§ 5.2](#52-référence-à-un-component) ;
+- `target` désigne l'élément cible par son nom qualifié : un component pour une dependency de component, selon les règles du [§ 5.2](#52-référence-à-un-component), un folder pour une dependency de folder, selon les règles du [§ 4.1](#41-référence-à-un-folder) ;
 - `stereotypes` liste les stéréotypes appliqués à la dependency, sur le même modèle que ceux du component.
 
 ## 7. Nom qualifié
@@ -146,9 +169,10 @@ Cf. la notion de nom qualifié dans les [définitions](../Definitions.md#nom-qua
 | folder | `<TreePath>` | `org.trainingorchestra.architecture.applicative.4_13` |
 | component | `<TreePath>.<ComponentName>` | `org.trainingorchestra.architecture.applicative.4_13.Concerto` |
 | component interne | Le nom qualifié de son component suivi de `.<ComponentName>` | `org.trainingorchestra.architecture.applicative.4_13.Concerto.API` |
-| dependency | Le nom qualifié du component qui la porte suivi de `.<DependencyName>` | `org.trainingorchestra.architecture.applicative.4_13.Concerto.database` |
+| dependency de component | Le nom qualifié du component qui la porte suivi de `.<DependencyName>` | `org.trainingorchestra.architecture.applicative.4_13.Concerto.database` |
+| dependency de folder | Le nom qualifié du folder qui la porte suivi de `.<DependencyName>` | `org.trainingorchestra.architecture.applicative.4_13.technical` |
 | diagram | `<TreePath>.<DiagramName>` | `org.trainingorchestra.architecture.applicative.4_13.Overview` |
 
-Un component interne et une dependency d'un même component ne peuvent donc pas porter le même nom (cf. règle `M-35` de [ValidationArchitecture.md](ValidationArchitecture.md#44-dependency)).
+Un component interne et une dependency d'un même component ne peuvent donc pas porter le même nom (cf. règle `M-35` de [ValidationArchitecture.md](ValidationArchitecture.md#44-dependency)). De même, une dependency d'un folder ne porte le nom d'aucun component, sous-folder ou diagramme de ce folder (cf. règle `M-36`).
 
 Les noms qualifiés des profils, stéréotypes, méta-informations et icônes sont décrits dans [ReferentialArchitectureProfiles.md](ReferentialArchitectureProfiles.md#6-nom-qualifié).
