@@ -139,7 +139,7 @@ Cf. [ArchitectureDiagrams.md](ArchitectureDiagrams.md).
 
 | Id | Règle |
 |---|---|
-| `M-60` | Un diagramme est un fichier `<DiagramName>.architecturediagram.yaml` placé dans un folder, ni à la racine du modèle, ni dans un répertoire de components internes. `<DiagramName>` ne contient pas de `.`. |
+| `M-60` | Un diagramme est un fichier `<DiagramName>.architecturediagram.yaml` placé dans un folder, ni à la racine du modèle, ni dans un répertoire de components internes. `<DiagramName>` ne contient pas de `.`. Un fichier `<DiagramName>.architecturediagram.mmd` optionnel, le dessin du diagramme, peut l'accompagner dans le même folder ; un fichier `<DiagramName>.architecturediagram.mmd` n'existe pas sans le fichier `<DiagramName>.architecturediagram.yaml` de même nom. |
 | `M-61` | `<DiagramName>` est différent du nom de chaque component et de chaque note du même folder. Sinon les deux auraient le même nom qualifié. |
 | `M-62` | Le fichier contient exactement la clef `objects`. |
 | `M-63` | `objects` est une séquence non vide. |

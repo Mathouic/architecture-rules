@@ -10,9 +10,21 @@ L'objet de ce document est l'implémentation d'un diagramme de modèle d'archite
 
 ## 2. Fichier
 
-Un diagramme se matérialise par un fichier yaml `<DiagramName>.architecturediagram.yaml` placé dans un folder du modèle (cf. [ReferentialArchitectureModels.md](ReferentialArchitectureModels.md#4-folder)).
+Un diagramme se matérialise par deux fichiers de même nom, placés côte à côte dans un folder du modèle (cf. [ReferentialArchitectureModels.md](ReferentialArchitectureModels.md#4-folder)) :
+
+- `<DiagramName>.architecturediagram.yaml`, obligatoire, qui contient la définition du diagramme (cf. [§ 3](#3-contenu)) ;
+- `<DiagramName>.architecturediagram.mmd`, optionnel, qui contient le dessin du diagramme en Mermaid (cf. [§ 4](#4-dessin)). Il est absent tant que le dessin n'a pas été généré.
+
+Exemple :
+
+```
+applicative/
+├── UserToConcerto.architecturediagram.yaml
+└── UserToConcerto.architecturediagram.mmd
+```
 
 - Un diagramme n'est placé ni à la racine du modèle, ni dans un répertoire de components internes.
+- Un fichier `<DiagramName>.architecturediagram.mmd` n'existe pas sans le fichier `<DiagramName>.architecturediagram.yaml` de même nom.
 - Un fichier `<DiagramName>.architecturediagram.yaml` n'est pas un component, bien que son extension soit `.yaml`.
 - Le méta-élément `diagram` ne peut pas être étendu par un stéréotype.
 
@@ -55,8 +67,10 @@ Les noms qualifiés sont décrits dans [ReferentialArchitectureModels.md § 8](R
 
 ## 4. Dessin
 
-Le dessin (en Mermaid par exemple) est produit à partir de la définition du diagramme.
+Le dessin est le fichier `<DiagramName>.architecturediagram.mmd`, en Mermaid. Il est généré à partir de la définition du diagramme, le fichier `<DiagramName>.architecturediagram.yaml`, qui fait foi.
 
+- Le dessin n'est pas modifié à la main : toute évolution passe par la définition, puis le dessin est généré à nouveau.
+- Après une modification de la définition, le dessin est généré à nouveau ; sinon il ne reflète plus le diagramme.
 - Aucun objet absent de `objects` ne doit apparaître dans le dessin.
 - Une dependency n'est donc dessinable que si l'élément qui la porte (component ou folder) et son élément cible sont tous deux dans `objects`.
 - Une note est dessinée reliée à l'élément auquel elle est attachée (son `target`) ; elle n'est donc dessinable que si cet élément est aussi dans `objects`.
@@ -79,6 +93,18 @@ objects:
       - org.mathouic.modelia.architecture.profile.applicative.V01_00_000.Decision.status
 ```
 
+Son dessin, le fichier `applicative/UserToConcerto.architecturediagram.mmd` de l'[exemple](../samples/architectureModel/applicative/UserToConcerto.architecturediagram.mmd), a été généré à partir de cette définition :
+
+```mermaid
+flowchart LR
+    applicative_User@{ img: "../../architectureProfile/org.mathouic.modelia.architecture.profile.applicative.V01_00_000/icons/User_100.png", label: "User", pos: "t", w: 100, h: 100, constraint: "on" }
+    applicative_Concerto@{ img: "../../architectureProfile/org.trainingorchestra.architecture.profile.applicative.V01_00_000/icons/Concerto_100.png", label: "Concerto<br/>version : 4.13.28", pos: "t", w: 100, h: 100, constraint: "on" }
+    applicative_ConcertoHosting@{ shape: doc, label: "ConcertoHosting<br/>status : accepted" }
+
+    applicative_User -->|concerto| applicative_Concerto
+    applicative_ConcertoHosting -.- applicative_Concerto
+```
+
 Le fichier `applicative/ApplicativeToTechnical.architecturediagram.yaml` de l'[exemple](../samples/architectureModel/applicative/ApplicativeToTechnical.architecturediagram.yaml) montre une dependency de folder, `technical`, portée par le `metainfo.yaml` du folder `applicative` :
 
 ```yaml
@@ -87,3 +113,5 @@ objects:
   - folder: technical
   - dependency: applicative.technical
 ```
+
+Son dessin n'a pas encore été généré : le fichier `applicative/ApplicativeToTechnical.architecturediagram.mmd` est absent.
