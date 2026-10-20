@@ -81,10 +81,11 @@ Le dessin est lisible par Mermaid 10 et par les versions suivantes : il n'utilis
 
 - La première ligne est le commentaire `%% Généré à partir de <DiagramName>.architecturediagram.yaml : ne pas modifier à la main.`, suivi de `flowchart LR`.
 - L'identifiant Mermaid d'un objet est son nom qualifié, dont les `.` sont remplacés par des `_`.
-- Un component est un nœud rectangulaire `<Id>["<Libellé>"]`. Si l'objet a une `icon`, le libellé commence par la balise `<img src='<Chemin>' width='100' height='100'/><br/>`, où `<Chemin>` est le chemin du fichier de l'icône, relatif au folder du dessin. Les attributs de la balise sont entre apostrophes, car le libellé est entre guillemets.
-- Une note est un nœud rectangulaire de classe `note`, déclarée par `classDef note fill:#fff8c4,stroke:#c9b458,stroke-dasharray:4 2`, et reliée à son `target` par un lien pointillé `-.-`.
-- Le libellé contient ensuite le nom de l'objet, puis une ligne `<br/><MInfoName> : <MInfoValue>` par méta-information visible ; les valeurs d'une liste sont séparées par des virgules. Les caractères `<`, `>` et `"` d'une valeur sont écrits `&lt;`, `&gt;` et `&quot;`.
-- Une dependency est un lien `<IdSource> -->|<DependencyName>| <IdCible>`.
+- Un component est un nœud rectangulaire `<Id>["<Libellé>"]`. Les attributs des balises HTML du libellé sont entre apostrophes, car le libellé est entre guillemets.
+- Si l'objet a une `icon`, le libellé commence par l'icône, centrée en haut du nœud et affichée à sa taille : `<span style='display:inline-block;width:<Taille>px;height:<Taille>px'><img src='<Chemin>' width='<Taille>' height='<Taille>'/></span><br/>`, où `<Chemin>` est le chemin du fichier de l'icône, relatif au folder du dessin, et `<Taille>` est l'`<IconKey>` de l'icône s'il est un entier, `100` sinon. Le `span` de taille fixe est nécessaire : Mermaid étire à la largeur du nœud toute image d'un libellé qui contient aussi du texte, et l'image prend alors la largeur du `span`.
+- Le libellé contient ensuite le nom de l'objet, puis, si au moins une méta-information est visible, une liste à puces alignée à gauche, avec une puce par méta-information visible : `<ul style='text-align:left;margin:0;padding-left:1.2em'><li><MInfoName> : <MInfoValue></li>…</ul>`. Les valeurs d'une liste sont séparées par des virgules. Les caractères `<`, `>` et `"` d'une valeur sont écrits `&lt;`, `&gt;` et `&quot;`.
+- Une note est un nœud rectangulaire de classe `note`, déclarée par `classDef note fill:#fff8c4,stroke:#c9b458,stroke-dasharray:4 2`, dont le libellé suit les mêmes règles, et reliée à son `target` par un lien pointillé sans flèche `-.-`.
+- Une dependency est une flèche pointillée, comme une dépendance UML : `<IdSource> -.->|<DependencyName>| <IdCible>`.
 
 Si une icône est introuvable, seule l'image manque : le reste du dessin s'affiche.
 
@@ -113,11 +114,11 @@ Son dessin, le fichier `applicative/UserToConcerto.architecturediagram.mmd` de l
 flowchart LR
     classDef note fill:#fff8c4,stroke:#c9b458,stroke-dasharray:4 2
 
-    applicative_User["<img src='../../architectureProfile/org.mathouic.modelia.architecture.profile.applicative.V01_00_000/icons/User_100.png' width='100' height='100'/><br/>User"]
-    applicative_Concerto["<img src='../../architectureProfile/org.trainingorchestra.architecture.profile.applicative.V01_00_000/icons/Concerto_100.png' width='100' height='100'/><br/>Concerto<br/>version : 4.13.28"]
-    applicative_ConcertoHosting["ConcertoHosting<br/>status : accepted"]:::note
+    applicative_User["<span style='display:inline-block;width:100px;height:100px'><img src='../../architectureProfile/org.mathouic.modelia.architecture.profile.applicative.V01_00_000/icons/User_100.png' width='100' height='100'/></span><br/>User"]
+    applicative_Concerto["<span style='display:inline-block;width:100px;height:100px'><img src='../../architectureProfile/org.trainingorchestra.architecture.profile.applicative.V01_00_000/icons/Concerto_100.png' width='100' height='100'/></span><br/>Concerto<ul style='text-align:left;margin:0;padding-left:1.2em'><li>version : 4.13.28</li></ul>"]
+    applicative_ConcertoHosting["ConcertoHosting<ul style='text-align:left;margin:0;padding-left:1.2em'><li>status : accepted</li></ul>"]:::note
 
-    applicative_User -->|concerto| applicative_Concerto
+    applicative_User -.->|concerto| applicative_Concerto
     applicative_ConcertoHosting -.- applicative_Concerto
 ```
 

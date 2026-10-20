@@ -2,9 +2,9 @@
 flowchart LR
     classDef note fill:#fff8c4,stroke:#c9b458,stroke-dasharray:4 2
 
-    applicative_User["<img src='../../architectureProfile/org.mathouic.modelia.architecture.profile.applicative.V01_00_000/icons/User_100.png' width='100' height='100'/><br/>User"]
-    applicative_Concerto["<img src='../../architectureProfile/org.trainingorchestra.architecture.profile.applicative.V01_00_000/icons/Concerto_100.png' width='100' height='100'/><br/>Concerto<br/>version : 4.13.28"]
-    applicative_ConcertoHosting["ConcertoHosting<br/>status : accepted"]:::note
+    applicative_User["<span style='display:inline-block;width:100px;height:100px'><img src='../../architectureProfile/org.mathouic.modelia.architecture.profile.applicative.V01_00_000/icons/User_100.png' width='100' height='100'/></span><br/>User"]
+    applicative_Concerto["<span style='display:inline-block;width:100px;height:100px'><img src='../../architectureProfile/org.trainingorchestra.architecture.profile.applicative.V01_00_000/icons/Concerto_100.png' width='100' height='100'/></span><br/>Concerto<ul style='text-align:left;margin:0;padding-left:1.2em'><li>version : 4.13.28</li></ul>"]
+    applicative_ConcertoHosting["ConcertoHosting<ul style='text-align:left;margin:0;padding-left:1.2em'><li>status : accepted</li></ul>"]:::note
 
-    applicative_User -->|concerto| applicative_Concerto
+    applicative_User -.->|concerto| applicative_Concerto
     applicative_ConcertoHosting -.- applicative_Concerto
