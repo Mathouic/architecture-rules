@@ -74,12 +74,13 @@ Le dessin est le fichier `<DiagramName>.architecturediagram.mmd`, en Mermaid. Il
 - Aucun objet absent de `objects` ne doit apparaître dans le dessin.
 - Une dependency n'est donc dessinable que si l'élément qui la porte (component ou folder) et son élément cible sont tous deux dans `objects`.
 - Une note est dessinée reliée à l'élément auquel elle est attachée (son `target`) ; elle n'est donc dessinable que si cet élément est aussi dans `objects`.
+- Un component interne est dessiné à l'intérieur du component composite auquel il appartient, si celui-ci est aussi dans `objects` (cf. [§ 4.2](#42-components-internes)).
 
 ### 4.1. Format du dessin
 
 Le dessin est lisible par Mermaid 10 et par les versions suivantes : il n'utilise pas la syntaxe `@{ … }` des formes étendues, apparue avec Mermaid 11.3, qu'ignorent encore de nombreux outils de visualisation.
 
-- La première ligne est le commentaire `%% Généré à partir de <DiagramName>.architecturediagram.yaml : ne pas modifier à la main.`, suivi de `flowchart LR`.
+- La première ligne est le commentaire `%% Généré à partir de <DiagramName>.architecturediagram.yaml : ne pas modifier à la main.`, suivi, si le dessin contient au moins un cadre, de la directive de marge des titres de cadres (cf. [§ 4.2](#42-components-internes)), puis de `flowchart LR`.
 - L'identifiant Mermaid d'un objet est son nom qualifié, dont les `.` sont remplacés par des `_`.
 - Un component est un nœud rectangulaire `<Id>["<Libellé>"]`. Les attributs des balises HTML du libellé sont entre apostrophes, car le libellé est entre guillemets.
 - Si l'objet a une `icon`, le libellé commence par l'icône, centrée en haut du nœud et affichée à sa taille : `<span style='display:inline-block;width:<Taille>px;height:<Taille>px'><img src='<Chemin>' width='<Taille>' height='<Taille>'/></span><br/>`, où `<Chemin>` est le chemin du fichier de l'icône, relatif au folder du dessin, et `<Taille>` est l'`<IconKey>` de l'icône s'il est un entier, `100` sinon. Le `span` de taille fixe est nécessaire : Mermaid étire à la largeur du nœud toute image d'un libellé qui contient aussi du texte, et l'image prend alors la largeur du `span`.
@@ -89,9 +90,29 @@ Le dessin est lisible par Mermaid 10 et par les versions suivantes : il n'utilis
 
 Si une icône est introuvable, seule l'image manque : le reste du dessin s'affiche.
 
+### 4.2. Components internes
+
+Un component interne appartient à son component composite, le component qui le liste dans `innerComponents` (cf. [ReferentialArchitectureModels.md § 5.1](ReferentialArchitectureModels.md#51-components-internes)). Le dessin montre cette appartenance par des cadres imbriqués.
+
+- Un component dont au moins un component interne, direct ou non, est dans `objects` est dessiné comme un cadre, un `subgraph` Mermaid, et non comme un nœud :
+  ```
+  subgraph <Id>["<Libellé>"]
+      <objets contenus>
+  end
+  ```
+  Son libellé suit les règles du [§ 4.1](#41-format-du-dessin) : icône, nom, méta-informations visibles.
+- Un component interne est dessiné dans le cadre de son ancêtre le plus proche qui est dans `objects`. Si aucun de ses ancêtres n'est dans `objects`, il est dessiné hors de tout cadre.
+- Les objets contenus dans un cadre sont indentés de 4 espaces de plus que la ligne `subgraph`.
+- Les dependencies et les liens des notes sont écrits après tous les nœuds et cadres, hors de tout cadre : Mermaid place dans un cadre les nœuds d'un lien écrit à l'intérieur de ce cadre. Une dependency ou une note dont l'élément est un component composite est reliée à son cadre.
+- Mermaid ne réserve pas la hauteur du titre d'un cadre : sans directive, le contenu recouvre une icône ou des méta-informations. Si le dessin contient au moins un cadre, la deuxième ligne est donc la directive :
+  ```
+  %%{init: {"flowchart": {"subGraphTitleMargin": {"top": 0, "bottom": <Marge>}}}}%%
+  ```
+  où `<Marge>` est la plus grande, sur tous les cadres du dessin, de la hauteur de leur titre : `<Taille> + 10` si le cadre a une icône, `0` sinon, plus `25` par ligne de texte (le nom et chaque méta-information visible). Cette directive est appliquée par Mermaid 10.8 et suivants ; une version antérieure l'ignore, et seul le titre des cadres est alors recouvert.
+
 ## 5. Exemple
 
-Le fichier `applicative/UserToConcerto.architecturediagram.yaml` de l'[exemple](../samples/architectureModel/applicative/UserToConcerto.architecturediagram.yaml) montre aussi la note `ConcertoHosting`, attachée au component `applicative.Concerto` :
+Le fichier `applicative/UserToConcerto.architecturediagram.yaml` de l'[exemple](../samples/architectureModel/applicative/UserToConcerto.architecturediagram.yaml) montre aussi la note `ConcertoHosting`, attachée au component `applicative.Concerto`, et le component interne `applicative.Concerto.API` :
 
 ```yaml
 objects:
@@ -101,21 +122,25 @@ objects:
     icon: org.trainingorchestra.architecture.profile.applicative.V01_00_000.Concerto_100
     visibleMetaInfos:
       - org.trainingorchestra.architecture.profile.applicative.V01_00_000.Concerto.version
+  - component: applicative.Concerto.API
   - dependency: applicative.User.concerto
   - note: applicative.ConcertoHosting
     visibleMetaInfos:
       - org.mathouic.modelia.architecture.profile.applicative.V01_00_000.Decision.status
 ```
 
-Son dessin, le fichier `applicative/UserToConcerto.architecturediagram.mmd` de l'[exemple](../samples/architectureModel/applicative/UserToConcerto.architecturediagram.mmd), a été généré à partir de cette définition :
+Son dessin, le fichier `applicative/UserToConcerto.architecturediagram.mmd` de l'[exemple](../samples/architectureModel/applicative/UserToConcerto.architecturediagram.mmd), a été généré à partir de cette définition. `Concerto` y est un cadre, qui contient son component interne `API` ; la dependency `concerto` et la note `ConcertoHosting` sont reliées à ce cadre :
 
 ```mermaid
 %% Généré à partir de UserToConcerto.architecturediagram.yaml : ne pas modifier à la main.
+%%{init: {"flowchart": {"subGraphTitleMargin": {"top": 0, "bottom": 160}}}}%%
 flowchart LR
     classDef note fill:#fff8c4,stroke:#c9b458,stroke-dasharray:4 2
 
     applicative_User["<span style='display:inline-block;width:100px;height:100px'><img src='../../architectureProfile/org.mathouic.modelia.architecture.profile.applicative.V01_00_000/icons/User_100.png' width='100' height='100'/></span><br/>User"]
-    applicative_Concerto["<span style='display:inline-block;width:100px;height:100px'><img src='../../architectureProfile/org.trainingorchestra.architecture.profile.applicative.V01_00_000/icons/Concerto_100.png' width='100' height='100'/></span><br/>Concerto<ul style='text-align:left;margin:0;padding-left:1.2em'><li>version : 4.13.28</li></ul>"]
+    subgraph applicative_Concerto["<span style='display:inline-block;width:100px;height:100px'><img src='../../architectureProfile/org.trainingorchestra.architecture.profile.applicative.V01_00_000/icons/Concerto_100.png' width='100' height='100'/></span><br/>Concerto<ul style='text-align:left;margin:0;padding-left:1.2em'><li>version : 4.13.28</li></ul>"]
+        applicative_Concerto_API["API"]
+    end
     applicative_ConcertoHosting["ConcertoHosting<ul style='text-align:left;margin:0;padding-left:1.2em'><li>status : accepted</li></ul>"]:::note
 
     applicative_User -.->|concerto| applicative_Concerto
