@@ -5,6 +5,7 @@ objects:
     icon: org.trainingorchestra.architecture.profile.applicative.V01_00_000.Concerto_100
     visibleMetaInfos:
       - org.trainingorchestra.architecture.profile.applicative.V01_00_000.Concerto.version
+  - component: applicative.Concerto.API
   - dependency: applicative.User.concerto
   - note: applicative.ConcertoHosting
     visibleMetaInfos:

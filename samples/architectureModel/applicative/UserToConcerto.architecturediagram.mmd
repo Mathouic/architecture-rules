@@ -1,9 +1,12 @@
 %% Généré à partir de UserToConcerto.architecturediagram.yaml : ne pas modifier à la main.
+%%{init: {"flowchart": {"subGraphTitleMargin": {"top": 0, "bottom": 160}}}}%%
 flowchart LR
     classDef note fill:#fff8c4,stroke:#c9b458,stroke-dasharray:4 2
 
     applicative_User["<span style='display:inline-block;width:100px;height:100px'><img src='../../architectureProfile/org.mathouic.modelia.architecture.profile.applicative.V01_00_000/icons/User_100.png' width='100' height='100'/></span><br/>User"]
-    applicative_Concerto["<span style='display:inline-block;width:100px;height:100px'><img src='../../architectureProfile/org.trainingorchestra.architecture.profile.applicative.V01_00_000/icons/Concerto_100.png' width='100' height='100'/></span><br/>Concerto<ul style='text-align:left;margin:0;padding-left:1.2em'><li>version : 4.13.28</li></ul>"]
+    subgraph applicative_Concerto["<span style='display:inline-block;width:100px;height:100px'><img src='../../architectureProfile/org.trainingorchestra.architecture.profile.applicative.V01_00_000/icons/Concerto_100.png' width='100' height='100'/></span><br/>Concerto<ul style='text-align:left;margin:0;padding-left:1.2em'><li>version : 4.13.28</li></ul>"]
+        applicative_Concerto_API["API"]
+    end
     applicative_ConcertoHosting["ConcertoHosting<ul style='text-align:left;margin:0;padding-left:1.2em'><li>status : accepted</li></ul>"]:::note
 
     applicative_User -.->|concerto| applicative_Concerto
